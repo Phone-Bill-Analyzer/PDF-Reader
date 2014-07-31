@@ -5,6 +5,6 @@
 	<classpathentry kind="lib" path="libs/pdfbox-1.8.5.jar"/>
 	<classpathentry kind="lib" path="libs/fontbox-1.8.5.jar"/>
 	<classpathentry kind="lib" path="libs/bcprov-jdk15on-150.jar"/>
-	<classpathentry kind="lib" path="C:/Users/I041474/Documents/Project Works/JAVA-Development/Jars/commons-logging-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/home/varun/Java-Development/Jars/commons-logging-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
