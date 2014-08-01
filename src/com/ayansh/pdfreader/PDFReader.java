@@ -10,57 +10,103 @@ import org.apache.pdfbox.pdmodel.encryption.StandardDecryptionMaterial;
 import org.apache.pdfbox.util.PDFTextStripper;
 import org.json.JSONObject;
 
+import com.ayansh.pdfreader.billparser.AirtelPostPaidMobileBill;
+import com.ayansh.pdfreader.billparser.PhoneBill;
+import com.ayansh.pdfreader.billparser.ReliancePostPaidMobileBill;
+import com.ayansh.pdfreader.billparser.VodafonePostPaidMobileBill;
+
 public class PDFReader {
 
 	public static void main(String[] args) {
+		
+		JSONObject result = readPDF(args);
+		
+		System.out.println(result.toString());
+		System.exit(0);
+		
+	}
+
+	public static JSONObject readPDF(String[] args) {
 		
 		PDFParser parser = null;
 		PDDocument pdDoc = null;
 		COSDocument cosDoc = null;
 		PDFTextStripper pdfStripper;
 		JSONObject result = new JSONObject();
+		PhoneBill phoneBill = null;
 		
-		String fileName = args[0];
-		String pwd = "";
 		
-		if(args.length == 2){
-			pwd = args[1];
+		if(args.length < 2){
+			// Error - Wrong input
+			result.put("ErrorCode", 1);
+			result.put("Message", "Wrong Input");
 		}
-		
-		File file = new File(fileName);
-		
-		try{
+		else{
 			
-			parser = new PDFParser(new FileInputStream(file));
+			String billType = args[0];
 			
-			parser.parse();
-			cosDoc = parser.getDocument();
-			pdfStripper = new PDFTextStripper();
-			pdDoc = new PDDocument(cosDoc);
-
-			if (pdDoc.isEncrypted()) {
-				pdDoc.openProtection(new StandardDecryptionMaterial(pwd));
+			if(billType.contentEquals("APPM")){
+				phoneBill = new AirtelPostPaidMobileBill();
+			}
+			else if(billType.contentEquals("VPPM")){
+				phoneBill = new VodafonePostPaidMobileBill();
+			}
+			else if(billType.contentEquals("RPPM")){
+				phoneBill = new ReliancePostPaidMobileBill();
+			}
+			else{
+				result.put("ErrorCode", 2);
+				result.put("Message", "Bill Type not supported");
 			}
 			
-			int pages = pdDoc.getNumberOfPages();
+			if(phoneBill != null){
+				
+				String fileName = args[1];
+				String pwd = "";
+				
+				if(args.length == 3){
+					pwd = args[2];
+				}
+				
+				File file = new File(fileName);
+				
+				try{
+					
+					parser = new PDFParser(new FileInputStream(file));
+					
+					parser.parse();
+					cosDoc = parser.getDocument();
+					pdfStripper = new PDFTextStripper();
+					pdDoc = new PDDocument(cosDoc);
 
-			String fileText = pdfStripper.getText(pdDoc);
-			
-			result.put("ErrorCode", 0);
-			result.put("PageCount", pages);
-			result.put("Text", fileText);
-			result.put("Message", "");
-			
-		}catch (Exception e){
-			
-			result.put("ErrorCode", 10);
-			result.put("Message", e.getMessage());
-			
+					if (pdDoc.isEncrypted()) {
+						pdDoc.openProtection(new StandardDecryptionMaterial(pwd));
+					}
+					
+					int pages = pdDoc.getNumberOfPages();
+
+					String fileText = pdfStripper.getText(pdDoc);
+					
+					phoneBill.setPageCount(pages);
+					phoneBill.setFileText(fileText);
+					
+					phoneBill.parseBillText();
+					
+					result.put("ErrorCode", 0);
+					result.put("PageCount", pages);
+					result.put("CallDetails", phoneBill.getCallDetails());
+					result.put("Message", "");
+					
+				}catch (Exception e){
+					
+					result.put("ErrorCode", 10);
+					result.put("Message", e.getMessage());
+					
+				}
+			}
 		}
 		
-		System.out.println(result.toString());
-		System.exit(0);
-		
+		return result;
 	}
 
 }
