@@ -87,13 +87,25 @@ public class PDFReader {
 
 					String fileText = pdfStripper.getText(pdDoc);
 					
+					// Close Document
+					pdDoc.close();
+					
 					phoneBill.setPageCount(pages);
 					phoneBill.setFileText(fileText);
 					
 					phoneBill.parseBillText();
 					
+					JSONObject billDetails = new JSONObject();
+					billDetails.put("PhoneNumber", phoneBill.getPhoneNumber());
+					billDetails.put("BillNo", phoneBill.getBillNo());
+					billDetails.put("DueDate", phoneBill.getDueDate());
+					billDetails.put("FromDate", phoneBill.getFromDate());
+					billDetails.put("ToDate", phoneBill.getToDate());
+					billDetails.put("BillDate", phoneBill.getBillDate());
+					
 					result.put("ErrorCode", 0);
 					result.put("PageCount", pages);
+					result.put("BillDetails", billDetails);
 					result.put("CallDetails", phoneBill.getCallDetails());
 					result.put("Message", "");
 					

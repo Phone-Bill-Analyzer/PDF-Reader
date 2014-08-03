@@ -87,25 +87,7 @@ public abstract class PhoneBill {
 	
 	public String getBillDate(){
 		
-		if(billDate == null){
-			return "";
-		}
-		
-		String[] date = billDate.split("-");
-		return date[0];
-	}
-
-	public String getBillMonth(){
-		
-		if(billDate == null){
-			return "";
-		}
-		
-		String[] date = billDate.split("-");
-		if(date.length < 2){
-			return "null";
-		}
-		return date[1];
+		return billDate;
 	}
 
 	public Collection<CallDetailItem> getCallDetails() {

@@ -65,8 +65,19 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 		 * Itemized Bill
 		 */
 		
+		/*
+		 * Strange that some bills have capitalized, others don't have capitalized !
+		 */
+		fileText = fileText.toLowerCase();
+		
 		int begin = fileText.indexOf("your itemised statement");
+		
 		String itemizedStatement = fileText.substring(begin);
+		
+		boolean pulseFormat = false;
+		boolean operatorFormat = false;
+		
+		int pnoPos, durPos, amtPos;
 		
 		String[] billGroups = itemizedStatement.split("total");
 		int size = billGroups.length;
@@ -82,6 +93,39 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 			for(int j=0; j<itemSize; j++){
 				
 				String itemLine = itemLines[j];
+				
+				if(itemLine.contains(" to ")){
+					continue;	//We don't want TO lines
+				}
+				
+				if(itemLine.contains("mobile internet")){
+					continue;	//We don't want TO lines
+				}
+				
+				// Check if we have pulse data or just amount
+				if(itemLine.contains("pulse")){
+					pulseFormat = true;
+				}
+
+				if(itemLine.contains("kolkatta")){
+					operatorFormat = true;
+				}
+				
+				if(itemLine.contains("operator")){
+					operatorFormat = true;
+				}
+				
+				if ((itemLine.contains("sno")) && (itemLine.contains("date"))
+						&& (itemLine.contains("time"))
+						&& (itemLine.contains("operator"))) {
+					operatorFormat = true;
+				}
+
+				if ((itemLine.contains("sno")) && (itemLine.contains("date"))
+						&& (itemLine.contains("time"))
+						&& !(itemLine.contains("operator"))) {
+					operatorFormat = false;
+				}
 				
 				String[] itemWords = itemLine.split(" ");
 				
@@ -99,24 +143,46 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 					pbi.setCallDate(itemWords[1]);
 					pbi.setCallTime(itemWords[2]);
 					
-					if(itemWords[3].contains("airtelgprs")){
+					if(operatorFormat){
+						pnoPos = 4;
+						durPos = 5;
+						amtPos = 7;
+					}
+					else{
+						pnoPos = 3;
+						durPos = 4;
+						amtPos = 6;
+					}
+					
+					if(!pulseFormat){
+						amtPos--;
+					}
+					
+					if(itemWords[pnoPos].contains("airtelgprs")){
 						pbi.setPhoneNumber("data");
 					}
 					else{
-						pbi.setPhoneNumber(itemWords[3]);
+						pbi.setPhoneNumber(itemWords[pnoPos]);
 					}
 					
-					pbi.setDuration(itemWords[4]);
+					pbi.setDuration(itemWords[durPos]);
 					
 					// Remove **
-					itemWords[5] = itemWords[5].replaceAll("\\*", "");
+					itemWords[amtPos] = itemWords[amtPos].replaceAll("\\*", "");
+					pbi.setCost(Float.valueOf(itemWords[amtPos]));
 					
-					pbi.setCost(Float.valueOf(itemWords[5]));
-					
-					if(itemWords.length == 7){
+					if(pulseFormat){
 						
-						if(itemWords[6].contains("*")){
-							pbi.setComments("discounted calls");
+						pbi.setComments("Pulse:" + itemWords[5]);
+						
+					}
+					else{
+						
+						if(itemWords.length == amtPos + 2){
+							
+							if(itemWords[amtPos + 1].contains("*")){
+								pbi.setComments("discounted calls");
+							}
 						}
 					}
 					

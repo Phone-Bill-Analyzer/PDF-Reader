@@ -55,6 +55,19 @@ public class PhoneBillTest {
 	public void testAirtel() {
 		
 		String[] input = {"APPM","/home/varun/Java-Development/Phone-Bill-Test/Airtel_Bill_1.pdf","mzg5"};
+
+		JSONObject result = PDFReader.readPDF(input);
+		
+		if(result.getInt("ErrorCode") != 0){
+			fail(result.getString("Message"));
+		}
+		
+	}
+	
+	@Test
+	public void testAirtel2() {
+		
+		String[] input = {"APPM","/home/varun/Java-Development/Phone-Bill-Test/Airtel_Bill_2.pdf"};
 		
 		JSONObject result = PDFReader.readPDF(input);
 		
