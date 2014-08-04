@@ -4,16 +4,21 @@ public class CallDetailItem {
 
 	private String callDate, callTime, phoneNumber, duration, comments;
 	private float cost;
+	private String freeCall, roamingCall, smsCall, stdCall;
+	private int pulse;
 	
 	public CallDetailItem(){
 		callDate = callTime = phoneNumber = duration = comments = "";
 		cost = 0;
+		freeCall = roamingCall = smsCall = stdCall = "";
+		pulse = 0;
 	}
 	
 	public String getCallDate() {
 		return callDate;
 	}
 	public void setCallDate(String callDate) {
+		callDate = callDate.replace('/', '-');
 		this.callDate = callDate;
 	}
 	
@@ -50,6 +55,41 @@ public class CallDetailItem {
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public String getFreeCall() {
+		return freeCall;
+	}
+	public void setFreeCall(String freeCall) {
+		this.freeCall = freeCall;
+	}
+
+	public String getRoamingCall() {
+		return roamingCall;
+	}
+	public void setRoamingCall(String roamingCall) {
+		this.roamingCall = roamingCall;
+	}
+
+	public String getSmsCall() {
+		return smsCall;
+	}
+	public void setSmsCall(String smsCall) {
+		this.smsCall = smsCall;
+	}
+
+	public String getStdCall() {
+		return stdCall;
+	}
+	public void setStdCall(String stdCall) {
+		this.stdCall = stdCall;
+	}
+
+	public int getPulse() {
+		return pulse;
+	}
+	public void setPulse(int pulse) {
+		this.pulse = pulse;
 	}
 	
 }

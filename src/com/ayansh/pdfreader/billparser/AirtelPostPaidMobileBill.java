@@ -77,7 +77,7 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 		boolean pulseFormat = false;
 		boolean operatorFormat = false;
 		
-		int pnoPos, durPos, amtPos;
+		int pnoPos, durPos, amtPos, pulsePos;
 		
 		String[] billGroups = itemizedStatement.split("total");
 		int size = billGroups.length;
@@ -146,11 +146,13 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 					if(operatorFormat){
 						pnoPos = 4;
 						durPos = 5;
+						pulsePos = 6;
 						amtPos = 7;
 					}
 					else{
 						pnoPos = 3;
 						durPos = 4;
+						pulsePos = 5;
 						amtPos = 6;
 					}
 					
@@ -173,7 +175,7 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 					
 					if(pulseFormat){
 						
-						pbi.setComments("Pulse:" + itemWords[5]);
+						pbi.setPulse(Integer.valueOf(itemWords[pulsePos]));
 						
 					}
 					else{
@@ -181,7 +183,7 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 						if(itemWords.length == amtPos + 2){
 							
 							if(itemWords[amtPos + 1].contains("*")){
-								pbi.setComments("discounted calls");
+								pbi.setFreeCall("X");
 							}
 						}
 					}
