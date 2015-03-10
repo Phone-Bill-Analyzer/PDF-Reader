@@ -5,6 +5,7 @@ public class CallDetailItem {
 	private String callDate, callTime, phoneNumber, duration, comments;
 	private float cost;
 	private String freeCall, roamingCall, smsCall, stdCall;
+	private String callDirection;
 	private int pulse;
 	
 	public CallDetailItem(){
@@ -12,12 +13,14 @@ public class CallDetailItem {
 		cost = 0;
 		freeCall = roamingCall = smsCall = stdCall = "";
 		pulse = 0;
+		setCallDirection("Out");
 	}
 	
 	public String getCallDate() {
 		return callDate;
 	}
 	public void setCallDate(String callDate) {
+		// Expected in dd-MMM-yyyy format only.
 		callDate = callDate.replace('/', '-');
 		this.callDate = callDate;
 	}
@@ -26,6 +29,7 @@ public class CallDetailItem {
 		return callTime;
 	}
 	public void setCallTime(String callTime) {
+		// Expected in HH:MM format
 		this.callTime = callTime;
 	}
 	
@@ -90,6 +94,13 @@ public class CallDetailItem {
 	}
 	public void setPulse(int pulse) {
 		this.pulse = pulse;
+	}
+
+	public String getCallDirection() {
+		return callDirection;
+	}
+	public void setCallDirection(String callDirection) {
+		this.callDirection = callDirection;
 	}
 	
 }

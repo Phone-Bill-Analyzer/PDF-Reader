@@ -54,7 +54,7 @@ public class PhoneBillTest {
 	@Test
 	public void testAirtel() {
 		
-		String[] input = {"APPM","/home/varun/Java-Development/Phone-Bill-Test/Airtel_Bill_1.pdf","mzg5"};
+		String[] input = {"APPM","/home/varun/Java-Development/Phone-Bill-Test/Airtel_Bill_1.pdf",""};
 
 		JSONObject result = PDFReader.readPDF(input);
 		
@@ -81,6 +81,45 @@ public class PhoneBillTest {
 	public void testReliance() {
 		
 		String[] input = {"RPPM","/home/varun/Java-Development/Phone-Bill-Test/Reliance_Bill_1.pdf"};
+		
+		JSONObject result = PDFReader.readPDF(input);
+		
+		if(result.getInt("ErrorCode") != 0){
+			fail(result.getString("Message"));
+		}
+		
+	}
+	
+	@Test
+	public void testSingtel1() {
+		
+		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill1.pdf"};
+		
+		JSONObject result = PDFReader.readPDF(input);
+		
+		if(result.getInt("ErrorCode") != 0){
+			fail(result.getString("Message"));
+		}
+		
+	}
+	
+	@Test
+	public void testSingtel2() {
+		
+		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill2.pdf"};
+		
+		JSONObject result = PDFReader.readPDF(input);
+		
+		if(result.getInt("ErrorCode") != 0){
+			fail(result.getString("Message"));
+		}
+		
+	}
+	
+	@Test
+	public void testSingtel3() {
+		
+		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill3.pdf"};
 		
 		JSONObject result = PDFReader.readPDF(input);
 		

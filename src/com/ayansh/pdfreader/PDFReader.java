@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import com.ayansh.pdfreader.billparser.AirtelPostPaidMobileBill;
 import com.ayansh.pdfreader.billparser.PhoneBill;
 import com.ayansh.pdfreader.billparser.ReliancePostPaidMobileBill;
+import com.ayansh.pdfreader.billparser.SingtelPostPaidMobileBill;
 import com.ayansh.pdfreader.billparser.VodafonePostPaidMobileBill;
 
 public class PDFReader {
@@ -53,6 +54,9 @@ public class PDFReader {
 			}
 			else if(billType.contentEquals("RPPM")){
 				phoneBill = new ReliancePostPaidMobileBill();
+			}
+			else if(billType.contentEquals("STPPM")){
+				phoneBill = new SingtelPostPaidMobileBill();
 			}
 			else{
 				result.put("ErrorCode", 2);
