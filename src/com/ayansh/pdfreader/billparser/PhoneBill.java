@@ -22,6 +22,7 @@ public abstract class PhoneBill {
 	public PhoneBill(){
 		callDetails = new ArrayList<CallDetailItem>();
 		dueDate = fromDate = toDate = "";
+		billNo = billDate = "";
 	}
 	
 	public void setPageCount(int c){
