@@ -34,9 +34,17 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 		
 		// Take 1st 50 lines
 		String page1 = pages[0];
-		String[] lines = page1.split("\n",50);
+		String[] lines = page1.split("\n",40);
 		
-		for(int i=0; i<50; i++){
+		for(int i=0; i<40; i++){
+			
+			if(lines[i].contains("Bill - ID")){
+				
+				String[] words = lines[i].split(" ");
+				if(words.length >= 12 && billNo.contentEquals("")){
+					billNo = words[12];
+				}
+			}
 			
 			if(lines[i].contains("MOBILE NO.")){
 				
