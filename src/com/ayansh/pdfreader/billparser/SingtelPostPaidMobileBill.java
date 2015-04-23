@@ -189,7 +189,38 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 			
 			String[] words = line.split(" ");
 			
-			if(words.length >= 8){
+			if(words.length == 7){
+				
+				call_date = words[0] + "-" + words[1] + "-" + getYearOfBill(words[1]);
+				call_time = words[2];
+				
+				call_dir = "Out";
+				phone_num = words[4];
+				call_amt = words[6];
+				
+				try{
+					
+					CallDetailItem pbi = new CallDetailItem();
+					
+					date = sdf.parse(call_date);
+					pbi.setCallDate(sdf.format(date));
+					
+					pbi.setCallTime(call_time);
+					
+					pbi.setPhoneNumber(phone_num);
+					pbi.setCallDirection(call_dir);
+					pbi.setSmsCall("X");
+					
+					pbi.setCost(Float.valueOf(call_amt));
+					
+					callDetails.add(pbi);
+					
+				}catch(Exception e){
+					// Ignore
+				}
+			}
+			
+			if(words.length == 8){
 				
 				if(words[0].contentEquals("G")){
 					
@@ -220,13 +251,10 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 					}catch(Exception e){
 						// Ignore
 					}
-					
 				}
 			}
 		}
-		
 	}
-
 
 	private void processRoamingCalls(String billGroup) {
 
@@ -273,6 +301,7 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 					pbi.setPhoneNumber(phone_num);
 					pbi.setDuration(call_dur);
 					pbi.setCallDirection(call_dir);
+					pbi.setRoamingCall("X");
 
 					pbi.setCost(Float.valueOf(call_amt));
 
