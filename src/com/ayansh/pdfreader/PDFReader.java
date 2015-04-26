@@ -14,6 +14,7 @@ import com.ayansh.pdfreader.billparser.AirtelPostPaidMobileBill;
 import com.ayansh.pdfreader.billparser.PhoneBill;
 import com.ayansh.pdfreader.billparser.ReliancePostPaidMobileBill;
 import com.ayansh.pdfreader.billparser.SingtelPostPaidMobileBill;
+import com.ayansh.pdfreader.billparser.TataDocomoPostPaidMobileBill;
 import com.ayansh.pdfreader.billparser.VodafonePostPaidMobileBill;
 
 public class PDFReader {
@@ -57,6 +58,9 @@ public class PDFReader {
 			}
 			else if(billType.contentEquals("STPPM")){
 				phoneBill = new SingtelPostPaidMobileBill();
+			}
+			else if(billType.contentEquals("TDPPM")){
+				phoneBill = new TataDocomoPostPaidMobileBill();
 			}
 			else{
 				result.put("ErrorCode", 2);
