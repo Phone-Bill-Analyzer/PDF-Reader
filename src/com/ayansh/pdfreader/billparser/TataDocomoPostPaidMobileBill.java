@@ -3,7 +3,6 @@
  */
 package com.ayansh.pdfreader.billparser;
 
-import java.io.Console;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,37 +84,66 @@ public class TataDocomoPostPaidMobileBill extends PhoneBill {
 		// Itemized Bill Details
 		pages = fileText.split("Your Itemized Details");
 		page = pages[1];
-		pages = page.split("Page |2G|3G|NR|SMS|Messaging");
+
+		if(page.indexOf('\n') == 0){
+			page = page.substring(1);
+		}
 		
-		for(int i=0; i<pages.length; i++){
+		String[] sections = page.split("(?=Data Charges 2G)|(?=Data Charges 3G)|(?=NR)|(?=SMS)|(?=Messaging)");
+		
+		
+		for(int s=0; s<sections.length; s++){
 			
-			page = pages[i];
+			String section = sections[s];
 			
-			lines = page.split("\n");
+			if(section.substring(0, 20).contains("Local")){
+				tag = "Local";
+			}
+			if(section.substring(0, 20).contains("Data Charges 2G")){
+				tag = "2G";
+			}
+			if(section.substring(0, 20).contains("Data Charges 3G")){
+				tag = "3G";
+			}
+			if(section.substring(0, 20).contains("NR")){
+				tag = "NR";
+			}
+			if(section.substring(0, 20).contains("SMS")){
+				tag = "SMS";
+			}
+			if(section.substring(0, 20).contains("Messaging")){
+				tag = "SMS";
+			}
+								
+			pages = section.split("Page ");
 			
-			// 1st half of lines.
-			for(int j=0; j<lines.length; j++){
+			for(int i=0; i<pages.length; i++){
 				
-				line = lines[j];
+				page = pages[i];
 				
-				get_tag(line);
+				lines = page.split("\n");
 				
-				line = process_line(line, 1);
-				
-				if(!line.contentEquals("")){
-					lines[j] = line;
+				// 1st half of lines.
+				for(int j=0; j<lines.length; j++){
+					
+					line = lines[j];					
+					line = process_line(line, 1);
+					
+					if(!line.contentEquals("")){
+						lines[j] = line;
+					}
+					
 				}
 				
+				// 2nd half of lines.
+				for(int j=0; j<lines.length; j++){
+								
+					line = lines[j];
+					process_line(line, 2);
+								
+				}
 			}
 			
-			// 2nd half of lines.
-			for(int j=0; j<lines.length; j++){
-							
-				line = lines[j];
-				get_tag(line);
-				process_line(line, 2);
-							
-			}
 		}
 	}
 
@@ -124,7 +152,7 @@ public class TataDocomoPostPaidMobileBill extends PhoneBill {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yy");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MMM-yyyy");
 		
-		System.out.println(line);
+		//System.out.println(line);
 		String[] words = line.split(" ");
 		
 		int minLength, beginIndex, maxLength;
@@ -150,6 +178,10 @@ public class TataDocomoPostPaidMobileBill extends PhoneBill {
 		
 		// Part1 => 5, Part 2 => 11
 		costIndex = callTimeIndex + 5;
+		
+		if(tag.contentEquals("SMS")){
+			costIndex--;
+		}
 		
 		if(words.length > minLength && words[beginIndex].length() >2 && words[beginIndex].charAt(2) == '/'){
 			
@@ -225,22 +257,5 @@ public class TataDocomoPostPaidMobileBill extends PhoneBill {
 		}
 		
 		return "";
-	}
-		
-	private void get_tag(String line) {
-
-		if (line.contains("Local")) {
-			tag = "Local";
-		} else if (line.contains("STD")) {
-			tag = "STD";
-		} else if (line.contains("Data Charges 2G")) {
-			tag = "2G";
-		} else if (line.contains("Data Charges 3G")) {
-			tag = "3G";
-		} else if (line.contains("NR")) {
-			tag = "Roaming";
-		} else if (line.contains("SMS") || line.contains("Messaging")) {
-			tag = "SMS";
-		}
 	}
 }

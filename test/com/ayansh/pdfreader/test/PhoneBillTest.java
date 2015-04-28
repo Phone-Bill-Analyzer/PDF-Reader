@@ -129,4 +129,16 @@ public class PhoneBillTest {
 		
 	}
 
+	@Test
+	public void testTataDocomo1() {
+		
+		String[] input = {"TDPPM","/home/varun/Java-Development/Phone-Bill-Test/Tata_Docomo_Bill_1.pdf"};
+		
+		JSONObject result = PDFReader.readPDF(input);
+		
+		if(result.getInt("ErrorCode") != 0){
+			fail(result.getString("Message"));
+		}
+		
+	}
 }
