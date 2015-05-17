@@ -119,7 +119,7 @@ public class PhoneBillTest {
 	@Test
 	public void testSingtel3() {
 		
-		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill3.pdf"};
+		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill4.pdf"};
 		
 		JSONObject result = PDFReader.readPDF(input);
 		
