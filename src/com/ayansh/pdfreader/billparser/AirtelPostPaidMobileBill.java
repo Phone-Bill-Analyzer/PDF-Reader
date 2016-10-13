@@ -52,7 +52,7 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 				
 				String[] words = lines[i].split(" ");
 				if(words.length == 3 && phoneNo == null){
-					phoneNo = words[2];
+					phoneNo = words[2].replace("\r","").replace("\n","");
 				}
 				
 			}
@@ -61,7 +61,7 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 				
 				String[] words = lines[i].split(" ");
 				if(words.length == 3 && billNo == null){
-					billNo = words[2];
+					billNo = words[2].replace("\r","").replace("\n","");
 				}
 				
 			}
@@ -70,7 +70,7 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 				
 				String[] words = lines[i].split(" ");
 				if(words.length > 5 && billDate == null){
-					billDate = words[4];
+					billDate = words[4].replace("\r","").replace("\n","");
 					setBillDate(billDate.substring(0, 11));
 				}
 				

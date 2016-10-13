@@ -72,14 +72,14 @@ public class PhoneBillTest {
 		
 		//AirTelBills.add(filePath + "AirTel" + separator + "01-Jan.pdf");
 		//AirTelBills.add(filePath + "AirTel" + separator + "Airtel_Bill_2.pdf");
-		AirTelBills.add(filePath + "AirTel" + separator + "09-Sept.pdf");
+		//AirTelBills.add(filePath + "AirTel" + separator + "09-Sept.pdf");
 				
 		//SingTelBills.add(filePath + "SingTel" + separator + "01_Jan.pdf");
 		//SingTelBills.add(filePath + "SingTel" + separator + "09_Sept.pdf");
 		
 		//RelianceBills.add(filePath + "Reliance" + separator + "Reliance_Bill_1.pdf");
 		
-		//VodafoneBills.put(filePath + "Vodafone" + separator + "binn6880.pdf", "binn6880");
+		VodafoneBills.put(filePath + "Vodafone" + separator + "binn6880.pdf", "binn6880");
 		
 		//TataDocomoBills.add(filePath + "Tata Docomo" + separator + "Tata_Docomo_Bill_1.pdf");
 		//TataDocomoBills.add(filePath + "Tata Docomo" + separator + "Tata_Docomo_Bill_2.pdf");
