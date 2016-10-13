@@ -92,20 +92,27 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 		
 		for(int i=0; i<size; i++){
 			
-			String billGroup = billGroups[i];
-			
-			// Process based on bill group type.
-			if(billGroup.contains("SmartMessage")){
-				processMessages(billGroup);
-			}
-			else if(billGroup.contains("e-ideas")){
-				processDataCalls(billGroup);
-			}
-			else if(billGroup.contains("Roaming")){
-				processRoamingCalls(billGroup);
-			}
-			else{
-				processLocalCalls(billGroup);
+			try{
+				
+				String billGroup = billGroups[i];
+				
+				// Process based on bill group type.
+				if(billGroup.contains("SmartMessage")){
+					processMessages(billGroup);
+				}
+				else if(billGroup.contains("e-ideas")){
+					processDataCalls(billGroup);
+				}
+				else if(billGroup.contains("Roaming")){
+					processRoamingCalls(billGroup);
+				}
+				else{
+					processLocalCalls(billGroup);
+				}
+				
+			}catch (Exception e){
+				e.getMessage();
+				throw e;
 			}
 			
 		}

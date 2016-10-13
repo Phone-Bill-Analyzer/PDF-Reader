@@ -26,6 +26,8 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 		 * Read Phone Number and Bill Number
 		 */
 		
+		fileText = fileText.toLowerCase();
+		
 		// Take 1st 100 lines
 		String[] lines = fileText.split("\n",100);
 		
@@ -68,8 +70,6 @@ public class AirtelPostPaidMobileBill extends PhoneBill {
 		/*
 		 * Strange that some bills have capitalized, others don't have capitalized !
 		 */
-		fileText = fileText.toLowerCase();
-		
 		int begin = fileText.indexOf("your itemised statement");
 		
 		String itemizedStatement = fileText.substring(begin);

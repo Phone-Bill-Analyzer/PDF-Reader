@@ -5,6 +5,11 @@ package com.ayansh.pdfreader.test;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +25,12 @@ import com.ayansh.pdfreader.PDFReader;
  */
 public class PhoneBillTest {
 
+	private List<String> AirTelBills;
+	private List<String> SingTelBills;
+	private List<String> RelianceBills;
+	private List<String> TataDocomoBills;
+	private HashMap<String,String> VodafoneBills;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -39,6 +50,38 @@ public class PhoneBillTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+
+		String OS = System.getProperty("os.name"); 
+		String filePath = "";
+		String separator = "";
+		
+		if(OS.contains("Windows")){
+			filePath = "C:\\Users\\I041474\\Documents\\Project_Works\\JAVA Development\\PBA Bills for Testing\\";
+			separator = "\\";
+		}
+		else{
+			filePath = "/home/varun/Java-Development/Phone-Bill-Test/";
+			separator = "/";
+		}
+		
+		AirTelBills = new ArrayList<String>();
+		//AirTelBills.add(filePath + "AirTel" + separator + "01-Jan.pdf");
+		//AirTelBills.add(filePath + "AirTel" + separator + "Airtel_Bill_2.pdf");
+		
+		SingTelBills = new ArrayList<String>();
+		SingTelBills.add(filePath + "SingTel" + separator + "01_Jan.pdf");
+		//SingTelBills.add(filePath + "SingTel" + separator + "09_Sept.pdf");
+		
+		RelianceBills = new ArrayList<String>();
+		//RelianceBills.add(filePath + "Reliance" + separator + "Reliance_Bill_1.pdf");
+		
+		VodafoneBills = new HashMap<String,String>();
+		//VodafoneBills.put(filePath + "Vodafone" + separator + "binn6880.pdf", "binn6880");
+		
+		TataDocomoBills = new ArrayList<String>();
+		//TataDocomoBills.add(filePath + "Tata Docomo" + separator + "Tata_Docomo_Bill_1.pdf");
+		//TataDocomoBills.add(filePath + "Tata Docomo" + separator + "Tata_Docomo_Bill_2.pdf");
+		
 	}
 
 	/**
@@ -54,77 +97,121 @@ public class PhoneBillTest {
 	@Test
 	public void testAirtel() {
 		
-		String[] input = {"APPM","/home/varun/Java-Development/Phone-Bill-Test/Airtel_Bill_1.pdf",""};
+		Iterator<String> i = AirTelBills.iterator();
+		
+		while(i.hasNext()){
+			
+			String[] input = {"APPM",i.next(),""};
 
-		JSONObject result = PDFReader.readPDF(input);
-		
-		if(result.getInt("ErrorCode") != 0){
-			fail(result.getString("Message"));
+			JSONObject result = PDFReader.readPDF(input);
+			
+			if(result.getInt("ErrorCode") != 0){
+				fail(result.getString("Message"));
+			}
+			
+			String billNo = result.getJSONObject("BillDetails").getString("BillNo");
+			if(billNo == null || billNo.equals("")){
+				fail(result.getString("Bill No not found"));
+			}
 		}
-		
-	}
-	
-	@Test
-	public void testAirtel2() {
-		
-		String[] input = {"APPM","/home/varun/Java-Development/Phone-Bill-Test/Airtel_Bill_2.pdf"};
-		
-		JSONObject result = PDFReader.readPDF(input);
-		
-		if(result.getInt("ErrorCode") != 0){
-			fail(result.getString("Message"));
-		}
-		
+				
 	}
 	
 	@Test
 	public void testReliance() {
 		
-		String[] input = {"RPPM","/home/varun/Java-Development/Phone-Bill-Test/Reliance_Bill_1.pdf"};
+		Iterator<String> i = RelianceBills.iterator();
 		
-		JSONObject result = PDFReader.readPDF(input);
-		
-		if(result.getInt("ErrorCode") != 0){
-			fail(result.getString("Message"));
+		while(i.hasNext()){
+			
+			String[] input = {"RPPM",i.next(),""};
+
+			JSONObject result = PDFReader.readPDF(input);
+			
+			if(result.getInt("ErrorCode") != 0){
+				fail(result.getString("Message"));
+			}
+			
+			String billNo = result.getJSONObject("BillDetails").getString("BillNo");
+			if(billNo == null || billNo.equals("")){
+				fail(result.getString("Bill No not found"));
+			}
+			
 		}
 		
 	}
 	
 	@Test
-	public void testSingtel1() {
+	public void testSingtel() {
 		
-		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill1.pdf"};
+		Iterator<String> i = SingTelBills.iterator();
 		
-		JSONObject result = PDFReader.readPDF(input);
-		
-		if(result.getInt("ErrorCode") != 0){
-			fail(result.getString("Message"));
+		while(i.hasNext()){
+			
+			String[] input = {"STPPM",i.next(),""};
+
+			JSONObject result = PDFReader.readPDF(input);
+			
+			if(result.getInt("ErrorCode") != 0){
+				fail(result.getString("Message"));
+			}
+			
+			String billNo = result.getJSONObject("BillDetails").getString("BillNo");
+			if(billNo == null || billNo.equals("")){
+				fail(result.getString("Bill No not found"));
+			}
+			
 		}
 		
 	}
 	
 	@Test
-	public void testSingtel2() {
+	public void testVodafone() {
 		
-		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill2.pdf"};
+		Iterator<String> i = VodafoneBills.keySet().iterator();
 		
-		JSONObject result = PDFReader.readPDF(input);
-		
-		if(result.getInt("ErrorCode") != 0){
-			fail(result.getString("Message"));
+		while(i.hasNext()){
+			
+			String file = i.next();
+			String pwd = VodafoneBills.get(file);
+			
+			String[] input = {"VPPM",file,pwd};
+
+			JSONObject result = PDFReader.readPDF(input);
+			
+			if(result.getInt("ErrorCode") != 0){
+				fail(result.getString("Message"));
+			}
+			
+			String billNo = result.getJSONObject("BillDetails").getString("BillNo");
+			if(billNo == null || billNo.equals("")){
+				fail(result.getString("Bill No not found"));
+			}
+			
 		}
 		
 	}
 	
 	@Test
-	public void testSingtel3() {
+	public void testTataDocomo() {
 		
-		String[] input = {"STPPM","/home/varun/Java-Development/Phone-Bill-Test/Singtel_Bill3.pdf"};
+		Iterator<String> i = TataDocomoBills.iterator();
 		
-		JSONObject result = PDFReader.readPDF(input);
-		
-		if(result.getInt("ErrorCode") != 0){
-			fail(result.getString("Message"));
+		while(i.hasNext()){
+			
+			String[] input = {"TDPPM",i.next(),""};
+
+			JSONObject result = PDFReader.readPDF(input);
+			
+			if(result.getInt("ErrorCode") != 0){
+				fail(result.getString("Message"));
+			}
+			
+			String billNo = result.getJSONObject("BillDetails").getString("BillNo");
+			if(billNo == null || billNo.equals("")){
+				fail(result.getString("Bill No not found"));
+			}
+			
 		}
 		
 	}
