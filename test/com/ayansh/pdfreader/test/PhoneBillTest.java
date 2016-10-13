@@ -51,6 +51,12 @@ public class PhoneBillTest {
 	@Before
 	public void setUp() throws Exception {
 
+		AirTelBills = new ArrayList<String>();
+		SingTelBills = new ArrayList<String>();
+		RelianceBills = new ArrayList<String>();
+		VodafoneBills = new HashMap<String,String>();
+		TataDocomoBills = new ArrayList<String>();
+		
 		String OS = System.getProperty("os.name"); 
 		String filePath = "";
 		String separator = "";
@@ -64,21 +70,17 @@ public class PhoneBillTest {
 			separator = "/";
 		}
 		
-		AirTelBills = new ArrayList<String>();
 		//AirTelBills.add(filePath + "AirTel" + separator + "01-Jan.pdf");
 		//AirTelBills.add(filePath + "AirTel" + separator + "Airtel_Bill_2.pdf");
-		
-		SingTelBills = new ArrayList<String>();
-		SingTelBills.add(filePath + "SingTel" + separator + "01_Jan.pdf");
+		AirTelBills.add(filePath + "AirTel" + separator + "09-Sept.pdf");
+				
+		//SingTelBills.add(filePath + "SingTel" + separator + "01_Jan.pdf");
 		//SingTelBills.add(filePath + "SingTel" + separator + "09_Sept.pdf");
 		
-		RelianceBills = new ArrayList<String>();
 		//RelianceBills.add(filePath + "Reliance" + separator + "Reliance_Bill_1.pdf");
 		
-		VodafoneBills = new HashMap<String,String>();
 		//VodafoneBills.put(filePath + "Vodafone" + separator + "binn6880.pdf", "binn6880");
 		
-		TataDocomoBills = new ArrayList<String>();
 		//TataDocomoBills.add(filePath + "Tata Docomo" + separator + "Tata_Docomo_Bill_1.pdf");
 		//TataDocomoBills.add(filePath + "Tata Docomo" + separator + "Tata_Docomo_Bill_2.pdf");
 		

@@ -74,7 +74,7 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 					
 					bill_date = words[1] + "-" + words[2] + "-" + words[3];
 					bill_month = words[2];
-					bill_year = words[3];
+					bill_year = words[3].replace("\r","").replace("\n","");
 					setBillDate(bill_date);
 					
 				}

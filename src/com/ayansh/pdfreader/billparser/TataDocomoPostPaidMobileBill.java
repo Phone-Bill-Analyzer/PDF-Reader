@@ -7,9 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-
-
 /**
  * @author Varun Verma
  *
@@ -126,8 +123,16 @@ public class TataDocomoPostPaidMobileBill extends PhoneBill {
 				// 1st half of lines.
 				for(int j=0; j<lines.length; j++){
 					
-					line = lines[j];					
-					line = process_line(line, 1);
+					line = lines[j];
+					
+					try{
+						
+						line = process_line(line, 1);
+						
+					}catch(Exception e){
+						e.getMessage();
+						// Ignore Exception and proceed.
+					}
 					
 					if(!line.contentEquals("")){
 						lines[j] = line;
@@ -139,7 +144,15 @@ public class TataDocomoPostPaidMobileBill extends PhoneBill {
 				for(int j=0; j<lines.length; j++){
 								
 					line = lines[j];
-					process_line(line, 2);
+					
+					try{
+						
+						process_line(line, 2);
+						
+					}catch(Exception e){
+						e.getMessage();
+						// Ignore Exception and proceed.
+					}
 								
 				}
 			}
@@ -257,5 +270,6 @@ public class TataDocomoPostPaidMobileBill extends PhoneBill {
 		}
 		
 		return "";
+					
 	}
 }
