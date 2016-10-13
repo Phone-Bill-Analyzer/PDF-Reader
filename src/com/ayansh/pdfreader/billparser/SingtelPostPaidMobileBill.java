@@ -281,22 +281,22 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 
 			if (words.length >= 8) {
 
-				call_date = words[0] + "-" + words[1] + "-" + getYearOfBill(words[1]);
-				call_time = words[3];
-
-				if (words[4].contentEquals("Incoming")) {
-					call_dir = "In";
-					phone_num = "Incoming";
-					call_dur = words[5];
-					call_amt = words[6];
-				} else {
-					call_dir = "Out";
-					phone_num = words[4];
-					call_dur = words[5];
-					call_amt = words[8];
-				}
-
 				try {
+					
+					call_date = words[0] + "-" + words[1] + "-" + getYearOfBill(words[1]);
+					call_time = words[3];
+
+					if (words[4].contentEquals("Incoming")) {
+						call_dir = "In";
+						phone_num = "Incoming";
+						call_dur = words[5];
+						call_amt = words[6];
+					} else {
+						call_dir = "Out";
+						phone_num = words[4];
+						call_dur = words[5];
+						call_amt = words[8];
+					}
 
 					CallDetailItem pbi = new CallDetailItem();
 
@@ -342,32 +342,32 @@ public class SingtelPostPaidMobileBill extends PhoneBill {
 				
 				if(words[0].contentEquals("G")){
 					
-					call_date = words[1] + "-" + words[2] + "-" + getYearOfBill(words[2]);
-					call_time = words[3];
-					
-					if(words[4].contentEquals("Out")){
-						call_dir = "Out";
-						phone_num = words[5];
-						call_dur = words[6];
-						call_amt = words[8];
-					}
-					else if (words[4].contentEquals("In")){
-						call_dir = "In";
-						phone_num = words[5];
-						call_dur = words[6];
-						call_amt = words[8];
-					}
-					else if ((words[4] + words[5]).contentEquals("CallFwd")){
-						call_dir = "Out";
-						phone_num = words[6];
-						call_dur = words[7];
-						call_amt = words[9];
-					}
-					else{
-						continue;
-					}
-					
 					try{
+						
+						call_date = words[1] + "-" + words[2] + "-" + getYearOfBill(words[2]);
+						call_time = words[3];
+						
+						if(words[4].contentEquals("Out")){
+							call_dir = "Out";
+							phone_num = words[5];
+							call_dur = words[6];
+							call_amt = words[8];
+						}
+						else if (words[4].contentEquals("In")){
+							call_dir = "In";
+							phone_num = words[5];
+							call_dur = words[6];
+							call_amt = words[8];
+						}
+						else if ((words[4] + words[5]).contentEquals("CallFwd")){
+							call_dir = "Out";
+							phone_num = words[6];
+							call_dur = words[7];
+							call_amt = words[9];
+						}
+						else{
+							continue;
+						}
 						
 						CallDetailItem pbi = new CallDetailItem();
 						
